@@ -1,12 +1,14 @@
+from bisect import *
 from collections import *
-from typing import *
+from functools import *
+from functools import *
 from heapq import *
+from itertools import *
 from math import *
-from functools import *
 from random import *
-from functools import *
-import bisect
+from re import *
 from sortedcontainers import *
+from typing import *
 
 
 class ListNode:
