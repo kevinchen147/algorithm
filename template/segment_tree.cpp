@@ -1,201 +1,124 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-template <class S, S (*op)(S, S), S (*defaultS)(), class F, S (*funcS)(F, S),
-          F (*funcF)(F, F), F (*defaultF)()>
-struct lazy_segtree {
+template <class S, S (*op)(S, S), S (*e)()>
+struct segtree {
  public:
-  lazy_segtree() : lazy_segtree(0) {}
-  explicit lazy_segtree(int n) : lazy_segtree(std::vector<S>(n, defaultS())) {}
-  explicit lazy_segtree(const std::vector<S> &v) : _n(int(v.size())) {
+  segtree() : segtree(0) {}
+  explicit segtree(int n) : segtree(std::vector<S>(n, e())) {}
+  explicit segtree(const std::vector<S>& v) : _n(int(v.size())) {
     log = 0;
-    while ((1U << log) < (unsigned int)(_n)) log++;
+    while ((1U << x) < (unsigned int)(n)) x++;
+    log = ceil_pow2(_n);
     size = 1 << log;
-    d = std::vector<S>(2 * size, defaultS());
-    lz = std::vector<F>(size, defaultF());
+    d = std::vector<S>(2 * size, e());
     for (int i = 0; i < _n; i++) d[size + i] = v[i];
     for (int i = size - 1; i >= 1; i--) {
-      updateHelper(i);
+      update(i);
     }
   }
 
   void set(int p, S x) {
     assert(0 <= p && p < _n);
     p += size;
-    for (int i = log; i >= 1; i--) push(p >> i);
     d[p] = x;
-    for (int i = 1; i <= log; i++) updateHelper(p >> i);
+    for (int i = 1; i <= log; i++) update(p >> i);
   }
 
-  S get(int p) {
+  S get(int p) const {
     assert(0 <= p && p < _n);
-    p += size;
-    for (int i = log; i >= 1; i--) push(p >> i);
-    return d[p];
+    return d[p + size];
   }
 
-  S query(int a, int b) {
-    assert(0 <= a && a <= b && b <= _n);
-    if (a == b) return defaultS();
+  S prod(int l, int r) const {
+    assert(0 <= l && l <= r && r <= _n);
+    S sml = e(), smr = e();
+    l += size;
+    r += size;
 
-    a += size;
-    b += size;
-
-    for (int i = log; i >= 1; i--) {
-      if (((a >> i) << i) != a) push(a >> i);
-      if (((b >> i) << i) != b) push((b - 1) >> i);
+    while (l < r) {
+      if (l & 1) sml = op(sml, d[l++]);
+      if (r & 1) smr = op(d[--r], smr);
+      l >>= 1;
+      r >>= 1;
     }
-
-    S sml = defaultS(), smr = defaultS();
-    while (a < b) {
-      if (a & 1) sml = op(sml, d[a++]);
-      if (b & 1) smr = op(d[--b], smr);
-      a >>= 1;
-      b >>= 1;
-    }
-
     return op(sml, smr);
   }
 
-  S all_prod() { return d[1]; }
+  S all_prod() const { return d[1]; }
 
-  void update(int p, F f) {
-    assert(0 <= p && p < _n);
-    p += size;
-    for (int i = log; i >= 1; i--) push(p >> i);
-    d[p] = funcS(f, d[p]);
-    for (int i = 1; i <= log; i++) updateHelper(p >> i);
+  template <bool (*f)(S)>
+  int max_right(int l) const {
+    return max_right(l, [](S x) { return f(x); });
   }
-  void update(int a, int b, F f) {
-    assert(0 <= a && a <= b && b <= _n);
-    if (a == b) return;
-
-    a += size;
-    b += size;
-
-    for (int i = log; i >= 1; i--) {
-      if (((a >> i) << i) != a) push(a >> i);
-      if (((b >> i) << i) != b) push((b - 1) >> i);
-    }
-
-    {
-      int l2 = a, r2 = b;
-      while (a < b) {
-        if (a & 1) all_apply(a++, f);
-        if (b & 1) all_apply(--b, f);
-        a >>= 1;
-        b >>= 1;
-      }
-      a = l2;
-      b = r2;
-    }
-
-    for (int i = 1; i <= log; i++) {
-      if (((a >> i) << i) != a) updateHelper(a >> i);
-      if (((b >> i) << i) != b) updateHelper((b - 1) >> i);
-    }
-  }
-
-  template <bool (*g)(S)>
-  int max_right(int a) {
-    return max_right(a, [](S x) { return g(x); });
-  }
-  template <class G>
-  int max_right(int a, G g) {
-    assert(0 <= a && a <= _n);
-    assert(g(defaultS()));
-    if (a == _n) return _n;
-    a += size;
-    for (int i = log; i >= 1; i--) push(a >> i);
-    S sm = defaultS();
+  template <class F>
+  int max_right(int l, F f) const {
+    assert(0 <= l && l <= _n);
+    assert(f(e()));
+    if (l == _n) return _n;
+    l += size;
+    S sm = e();
     do {
-      while (a % 2 == 0) a >>= 1;
-      if (!g(op(sm, d[a]))) {
-        while (a < size) {
-          push(a);
-          a = (2 * a);
-          if (g(op(sm, d[a]))) {
-            sm = op(sm, d[a]);
-            a++;
+      while (l % 2 == 0) l >>= 1;
+      if (!f(op(sm, d[l]))) {
+        while (l < size) {
+          l = (2 * l);
+          if (f(op(sm, d[l]))) {
+            sm = op(sm, d[l]);
+            l++;
           }
         }
-        return a - size;
+        return l - size;
       }
-      sm = op(sm, d[a]);
-      a++;
-    } while ((a & -a) != a);
+      sm = op(sm, d[l]);
+      l++;
+    } while ((l & -l) != l);
     return _n;
   }
 
-  template <bool (*g)(S)>
-  int min_left(int b) {
-    return min_left(b, [](S x) { return g(x); });
+  template <bool (*f)(S)>
+  int min_left(int r) const {
+    return min_left(r, [](S x) { return f(x); });
   }
-  template <class G>
-  int min_left(int b, G g) {
-    assert(0 <= b && b <= _n);
-    assert(g(defaultS()));
-    if (b == 0) return 0;
-    b += size;
-    for (int i = log; i >= 1; i--) push((b - 1) >> i);
-    S sm = defaultS();
+  template <class F>
+  int min_left(int r, F f) const {
+    assert(0 <= r && r <= _n);
+    assert(f(e()));
+    if (r == 0) return 0;
+    r += size;
+    S sm = e();
     do {
-      b--;
-      while (b > 1 && (b % 2)) b >>= 1;
-      if (!g(op(d[b], sm))) {
-        while (b < size) {
-          push(b);
-          b = (2 * b + 1);
-          if (g(op(d[b], sm))) {
-            sm = op(d[b], sm);
-            b--;
+      r--;
+      while (r > 1 && (r % 2)) r >>= 1;
+      if (!f(op(d[r], sm))) {
+        while (r < size) {
+          r = (2 * r + 1);
+          if (f(op(d[r], sm))) {
+            sm = op(d[r], sm);
+            r--;
           }
         }
-        return b + 1 - size;
+        return r + 1 - size;
       }
-      sm = op(d[b], sm);
-    } while ((b & -b) != b);
+      sm = op(d[r], sm);
+    } while ((r & -r) != r);
     return 0;
   }
 
  private:
   int _n, size, log;
   std::vector<S> d;
-  std::vector<F> lz;
 
-  void updateHelper(int k) { d[k] = op(d[2 * k], d[2 * k + 1]); }
-  void all_apply(int k, F f) {
-    d[k] = funcS(f, d[k]);
-    if (k < size) lz[k] = funcF(f, lz[k]);
-  }
-  void push(int k) {
-    all_apply(2 * k, lz[k]);
-    all_apply(2 * k + 1, lz[k]);
-    lz[k] = defaultF();
-  }
+  void update(int k) { d[k] = op(d[2 * k], d[2 * k + 1]); }
 };
 
-struct S {
-  int val;
-};
+// int op(int a, int b) { return min(a, b); }
 
-struct F {
-  int val;
-};
+// int e() { return (int)(1e9); }
 
-S op(S a, S b) { return {a.val + b.val}; }
+// bool f(int v) { return v < target; }
 
-S defaultS() { return {0}; }
-
-S funcS(F a, S b) { return {b.val + a.val}; }
-
-// `b` at first, `a` after
-F funcF(F a, F b) { return {b.val + a.val}; }
-
-F defaultF() { return {0}; }
-
-// lazy_segtree<S, op, defaultS, F, funcS, funcF, defaultF> seg(int n);
-// lazy_segtree<S, op, defaultS, F, funcS, funcF, defaultF> seg(vector<S> v);
-// seg->set(i, S{val});
-// seg->update(index, F{val});
-// auto res = seg->query(left, right + 1).val;
+// segtree<int, op, e> seg(10);
+// seg.set(x, v);
+// seg.prod(l, r);
+// seg.max_right<f>(p);
