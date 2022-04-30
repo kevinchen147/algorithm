@@ -10,6 +10,21 @@ from sortedcontainers import *
 from typing import *
 
 
+def main():
+    def solve():
+        ...
+
+    T = int(input())
+    for i in range(1, T + 1):
+        print('Case #' + str(i) + ': ', end=' ')
+        solve()
+        print()
+
+
+if __name__ == '__main__':
+    main()
+
+
 class ListNode:
     def __init__(self, val=0, next=None):
         self.val = val
