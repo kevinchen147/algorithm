@@ -1,34 +1,5 @@
-#include <algorithm>
-#include <array>
-#include <iostream>
-#include <list>
-#include <map>
-#include <numeric>
-#include <queue>
-#include <random>
-#include <set>
-#include <stack>
-#include <string>
-#include <string_view>
-#include <unordered_map>
-#include <unordered_set>
-#include <vector>
-
-int main() {
-  std::cin.tie(nullptr)->sync_with_stdio(false);
-
-  std::function<void()> solve = [&]() {};
-
-  int T = 1;
-  std::cin >> T;
-  for (int i = 1; i <= T; ++i) {
-    std::cout << "Case #" << i << ": ";
-    solve();
-    std::cout << std::endl;
-  }
-
-  return 0;
-}
+#include <bits/stdc++.h>
+using namespace std;
 
 struct ListNode {
   int val;
