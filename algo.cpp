@@ -1,49 +1,45 @@
-#include <algorithm>
-#include <array>
-#include <iostream>
-#include <list>
-#include <map>
-#include <numeric>
-#include <queue>
-#include <random>
-#include <set>
-#include <stack>
-#include <string>
-#include <string_view>
-#include <unordered_map>
-#include <unordered_set>
-#include <vector>
+#include <bits/stdc++.h>
+using namespace std;
 
-int main() {
-  std::cin.tie(nullptr)->sync_with_stdio(false);
-
-  std::function<void()> solve = [&]() {};
-
-  int T = 1;
-  std::cin >> T;
-  for (int i = 1; i <= T; ++i) {
-    std::cout << "Case #" << i << ": ";
-    solve();
-    std::cout << std::endl;
-  }
-
-  return 0;
+template <typename A, typename B>
+ostream &operator<<(ostream &os, const pair<A, B> &p) {
+  return os << '(' << p.first << ", " << p.second << ')';
 }
 
-struct ListNode {
-  int val;
-  ListNode *next;
-  ListNode() : val(0), next(nullptr) {}
-  ListNode(int x) : val(x), next(nullptr) {}
-  ListNode(int x, ListNode *_next) : val(x), next(_next) {}
-};
+template <typename T_container, typename T = typename enable_if<
+                                    !is_same<T_container, string>::value,
+                                    typename T_container::value_type>::type>
+ostream &operator<<(ostream &os, const T_container &v) {
+  os << '{';
+  string sep;
+  for (const T &x : v) os << sep << x, sep = ", ";
+  return os << '}';
+}
 
-struct TreeNode {
-  int val;
-  TreeNode *left;
-  TreeNode *right;
-  TreeNode() : val(0), left(nullptr), right(nullptr) {}
-  TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
-  TreeNode(int x, TreeNode *_left, TreeNode *_right)
-      : val(x), left(_left), right(_right) {}
-};
+void dbg_out() { cerr << endl; }
+template <typename Head, typename... Tail>
+void dbg_out(Head H, Tail... T) {
+  cerr << ' ' << H;
+  dbg_out(T...);
+}
+#ifdef KEVIN_DEBUG
+#define dbg(...)                                                    \
+  cerr << "LINE(" << __LINE__ << ") -> [" << #__VA_ARGS__ << "]: ", \
+      dbg_out(__VA_ARGS__)
+#else
+#define dbg(...)
+#endif
+
+int main() {
+  int tests;
+  cin >> tests;
+
+  function<void(int)> run_case = [](int test_case) {
+    cout << "Case #" << test_case << ": " << '\n';
+  };
+
+  for (int tc = 1; tc <= tests; tc++) {
+    run_case(tc);
+    cout << flush;
+  }
+}
