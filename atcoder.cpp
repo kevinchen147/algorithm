@@ -2,7 +2,7 @@
 #include <atcoder/all>
 using namespace std;
 
-#ifdef KEVIN_DEBUG
+#ifdef XXGJ_DEBUG
 #include "debug.h"
 #else
 #define dbg(...)
