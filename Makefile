@@ -14,3 +14,6 @@ py: algo.py
 diff:
 	diff output answer -y
 .PHONY: diff
+
+expand:
+	cd ./ac-library && ./expander.py -c ../algo.cpp > ../combined.out && cd .. && code ./combined.out
