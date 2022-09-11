@@ -1,19 +1,30 @@
 CXX := g++
-CXXFLAGS := -std=c++17 -O2 -Wall -Wextra -pedantic -Wshadow -Wformat=2 -Wfloat-equal -Wconversion -Wlogical-op -Wshift-overflow=2 -Wduplicated-cond -Wcast-qual -Wcast-align -Wno-unused-result -Wno-sign-conversion -DKEVIN_DEBUG
+CXXFLAGS := -std=c++17 -O2 -Wall -Wextra -Wshadow -Wformat=2 -Wfloat-equal -Wconversion -Wlogical-op -Wshift-overflow=2 -Wduplicated-cond -Wcast-qual -Wcast-align -Wno-unused-result -Wno-sign-conversion -DKEVIN_DEBUG -I ./ac-library
 
-cpp: algo
-	./algo < input > output && cat output
-.PHONY: cpp
+.PHONY: ac
+ac: atcoder
+	./atcoder < input > output && cat output
 
-algo: algo.cpp
+atcoder: atcoder.cpp
 
-py: algo.py
-	python3 ./algo.py < input > output && cat output
-.PHONY: py
+.PHONY: kscpp
+kscpp: kickstart
+	./kickstart < input > output && cat output
 
+kickstart: kickstart.cpp
+
+.PHONY: kspy
+kspy: kickstart.py
+	python3 ./kickstart.py < input  > output && cat output
+
+.PHONY: diff
 diff:
 	diff output answer -y
-.PHONY: diff
 
-expand:
-	cd ./ac-library && ./expander.py -c ../algo.cpp > ../combined.out && cd .. && code ./combined.out
+.PHONY: ks+
+ks+:
+	./ac-library/expander.py -c ./kickstart.cpp > ./combined.out && code ./combined.out
+
+.PHONY: lc+
+lc+:
+	./ac-library/expander.py -c ./leetcode.cpp > ./combined.out && code ./combined.out
