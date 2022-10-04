@@ -7,15 +7,11 @@ ac: atcoder
 
 atcoder: atcoder.cpp
 
-.PHONY: kscpp
-kscpp: kickstart
+.PHONY: ks
+ks: kickstart
 	./kickstart < input > output && cat output
 
 kickstart: kickstart.cpp
-
-.PHONY: kspy
-kspy: kickstart.py
-	python3 ./kickstart.py < input  > output && cat output
 
 .PHONY: diff
 diff:
@@ -23,8 +19,8 @@ diff:
 
 .PHONY: ks+
 ks+:
-	./ac-library/expander.py -c ./kickstart.cpp > ./combined.out && code ./combined.out
+	cd ./ac-library && ./expander.py -c ../kickstart.cpp > ./combined.out && code ./combined.out
 
-.PHONY: lc+
-lc+:
-	./ac-library/expander.py -c ./leetcode.cpp > ./combined.out && code ./combined.out
+.PHONY: ac+
+ac+:
+	cd ./ac-library && ./expander.py -c ../leetcode.cpp > ./combined.out && code ./combined.out
