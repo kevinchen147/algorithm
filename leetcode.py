@@ -1,3 +1,4 @@
+from functools import *
 from bisect import *
 from collections import *
 from functools import *
@@ -6,8 +7,9 @@ from itertools import *
 from math import *
 from random import *
 from re import *
-from sortedcontainers import *
 from typing import *
+
+from sortedcontainers import *
 
 
 class ListNode:

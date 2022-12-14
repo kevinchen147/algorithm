@@ -23,4 +23,4 @@ ks+:
 
 .PHONY: ac+
 ac+:
-	cd ./ac-library && ./expander.py -c ../leetcode.cpp > ./combined.out && code ./combined.out
+	cd ./ac-library && ./expander.py -c ../atcoder.cpp > ./combined.out && code ./combined.out
