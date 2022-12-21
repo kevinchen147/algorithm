@@ -5,5 +5,8 @@
         "random": "cpp",
         "valarray": "cpp",
         "cmath": "cpp"
-    }
+    },
+    "C_Cpp.default.defines": [
+        "XXGJ_DEBUG"
+    ],
 }
