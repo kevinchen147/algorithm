@@ -7,8 +7,10 @@
 #define dbg(...)
 #endif
 
-int main() {
-    std::cin.tie(nullptr)->sync_with_stdio(false);
+// int main() {
+//     Solution s;
+//     std::vector<std::vector<int>> v{};
+//     dbg(s);
 
-    return 0;
-}
+//     return 0;
+// }
