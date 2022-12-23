@@ -7,10 +7,13 @@
 #define dbg(...)
 #endif
 
-// int main() {
-//     Solution s;
-//     std::vector<std::vector<int>> v{};
-//     dbg(s);
+#ifdef XXGJ_DEBUG
+int main() {
+    // Solution s;
+    // std::vector<int> v{};
+    // auto ans = s;
+    // dbg(ans);
 
-//     return 0;
-// }
+    // return 0;
+}
+#endif
