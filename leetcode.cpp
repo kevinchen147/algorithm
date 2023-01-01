@@ -1,4 +1,18 @@
-#include <bits/stdc++.h>
+#include <algorithm>
+#include <chrono>
+#include <functional>
+#include <iostream>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <random>
+#include <set>
+#include <stack>
+#include <string>
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
+
 #include <atcoder/all>
 
 #ifdef XXGJ_DEBUG
