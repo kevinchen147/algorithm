@@ -3,34 +3,28 @@ CXXFLAGS := -std=c++17 -O2 -Wall -Wextra -Wshadow -Wformat=2 -Wfloat-equal -Wcon
 
 .PHONY: lc
 lc: leetcode
-	./leetcode < input > output && cat output
-
-leetcode: leetcode.cpp
+	./leetcode < input | tee output
 
 .PHONY: lc+
 lc+:
-	cd ./ac-library && ./expander.py -c ../leetcode.cpp > ./combined.out && code ./combined.out
+	./ac-library/expander.py -c ./leetcode.cpp | xclip -sel c
 
 .PHONY: ac
 ac: atcoder
-	./atcoder < input > output && cat output
-
-atcoder: atcoder.cpp
+	./atcoder < input | tee output
 
 .PHONY: ac+
 ac+:
-	cd ./ac-library && ./expander.py -c ../atcoder.cpp > ./combined.out && code ./combined.out
+	./ac-library/expander.py -c ./atcoder.cpp | xclip -sel c
 
 .PHONY: ks
 ks: kickstart
-	./kickstart < input > output && cat output
-
-kickstart: kickstart.cpp
+	./kickstart < input | tee output
 
 .PHONY: ks+
 ks+:
-	cd ./ac-library && ./expander.py -c ../kickstart.cpp > ./combined.out && code ./combined.out
+	./ac-library/expander.py -c ./kickstart.cpp | xclip -sel c
 
 .PHONY: diff
 diff:
-	diff output answer -y
+	nvim -d output answer
