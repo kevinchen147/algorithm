@@ -7,7 +7,7 @@ lc: leetcode
 
 .PHONY: lc+
 lc+:
-	./ac-library/expander.py -c ./leetcode.cpp | xclip -sel c
+	cd ./ac-library && ./expander.py -c ../leetcode.cpp | xclip -sel c
 
 .PHONY: ac
 ac: atcoder
@@ -15,7 +15,7 @@ ac: atcoder
 
 .PHONY: ac+
 ac+:
-	./ac-library/expander.py -c ./atcoder.cpp | xclip -sel c
+	cd ./ac-library && ./expander.py -c ../atcoder.cpp | xclip -sel c
 
 .PHONY: ks
 ks: kickstart
@@ -23,7 +23,7 @@ ks: kickstart
 
 .PHONY: ks+
 ks+:
-	./ac-library/expander.py -c ./kickstart.cpp | xclip -sel c
+	cd ./ac-library && ./expander.py -c ../kickstart.cpp | xclip -sel c
 
 .PHONY: diff
 diff:
