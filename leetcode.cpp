@@ -1,6 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+#include <atcoder/all>
+
 #ifdef XXGJ_DEBUG
 #include "debug.h"
 #else
