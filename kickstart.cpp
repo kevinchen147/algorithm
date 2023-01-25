@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+using namespace std;
 
 #ifdef XXGJ_DEBUG
 #include "debug.h"
@@ -7,17 +8,17 @@
 #endif
 
 int main() {
-    std::cin.tie(nullptr)->sync_with_stdio(false);
+    cin.tie(nullptr)->sync_with_stdio(false);
 
     int tests;
-    std::cin >> tests;
+    cin >> tests;
 
-    std::function<void(int)> run_case = [](int test_case) {
-        std::cout << "Case #" << test_case << ": " << '\n';
+    function<void(int)> run_case = [](int test_case) {
+        cout << "Case #" << test_case << ": " << '\n';
     };
 
     for (int tc = 1; tc <= tests; tc++) {
         run_case(tc);
-        std::cout << std::flush;
+        cout << flush;
     }
 }
