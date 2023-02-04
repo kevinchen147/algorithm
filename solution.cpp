@@ -21,6 +21,7 @@ struct TreeNode {
 
 class Solution {};
 
+#ifdef XXGJ_DEBUG
 int main() {
   // Solution s;
   // vector<int> v{};
@@ -30,3 +31,4 @@ int main() {
 
   return 0;
 }
+#endif
