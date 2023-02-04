@@ -7,3 +7,7 @@ CXXFLAGS := -std=c++17 -O2 -Wall -Wextra -Wshadow -Wformat=2 -Wfloat-equal \
 run: solution
 	./solution < input | tee output
 
+.PHONY: clean
+clean:
+	rm solution
+
