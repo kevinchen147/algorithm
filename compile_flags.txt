@@ -14,4 +14,3 @@
 -Wno-unused-result
 -Wno-sign-conversion
 -DXXGJ_DEBUG
--I./ac-library
